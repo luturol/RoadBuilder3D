@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerBehaviour : MonoBehaviour
 {
     private Transform roadPrefab;
+    private Transform rotateRoad;
+
     private PlatformBehaviour currentPlatform;
     private bool firstClickSpace = false;
     private bool isSpacePressed = false;
@@ -20,11 +22,12 @@ public class PlayerBehaviour : MonoBehaviour
     void Update()
     {
         isSpacePressed = Input.GetKey(KeyCode.Space);
-        if (isSpacePressed && hasReleasedSpacebar == false)
+        if (isSpacePressed && (firstClickSpace == false || hasReleasedSpacebar == false))
         {
             if(firstClickSpace == false)
             {
                 roadPrefab = currentPlatform.InstantiateRoad();
+                rotateRoad = currentPlatform.GetRoadPoint();
                 firstClickSpace = true;
             }            
 
@@ -33,8 +36,19 @@ public class PlayerBehaviour : MonoBehaviour
                 Resize(roadPrefab, 1, new Vector3(0f, 0.01f, 0f));
             }
         }
-        else{
+        else if(firstClickSpace == true) {
+            Debug.Log("Soltou a barra de espaço");
             hasReleasedSpacebar = true;
+
+            var rotationAngle = Time.time * (90/10);
+            if(rotationAngle <= 90)
+            {                
+                Debug.Log("Rotacionando: " + rotationAngle + "graus");
+                rotateRoad.transform.rotation = Quaternion.Euler(rotationAngle, 0f, 0f);
+            }
+            else{
+                //move to the end of the road
+            }                
         }
     }
 

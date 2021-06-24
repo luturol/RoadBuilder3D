@@ -6,7 +6,7 @@ public class PlatformBehaviour : MonoBehaviour
 {
     [SerializeField] private Transform roadSpawn;
     [SerializeField] private Transform road;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +21,9 @@ public class PlatformBehaviour : MonoBehaviour
 
     public Transform InstantiateRoad()
     {
-        return Instantiate(road, roadSpawn.transform.position, Quaternion.identity);
+        return Instantiate(road, roadSpawn.transform.position, Quaternion.identity, roadSpawn);
     }
+
+    public Transform GetRoadPoint() => roadSpawn.transform;
+    
 }
