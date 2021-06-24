@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
 {
-    [SerializeField] private Transform roadPrefab;
+    private Transform roadPrefab;
+    private PlatformBehaviour currentPlatform;
+    private bool firstClickSpace = false;
+    private bool isSpacePressed = false;
+    private bool hasReleasedSpacebar = false;
 
-    private Transform currentPlatform;
-    private bool firstClickSpace;
     // Start is called before the first frame update
-
     void Start()
     {
 
@@ -18,19 +19,22 @@ public class PlayerBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Space))
+        isSpacePressed = Input.GetKey(KeyCode.Space);
+        if (isSpacePressed && hasReleasedSpacebar == false)
         {
             if(firstClickSpace == false)
             {
-                
-            }
-
-            Debug.Log("pressionando espaço");
+                roadPrefab = currentPlatform.InstantiateRoad();
+                firstClickSpace = true;
+            }            
 
             if(roadPrefab != null)
             {
                 Resize(roadPrefab, 1, new Vector3(0f, 0.01f, 0f));
             }
+        }
+        else{
+            hasReleasedSpacebar = true;
         }
     }
 
@@ -38,8 +42,8 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (other.gameObject.tag == "Platform")
         {
-            currentPlatform = other.gameObject.transform;
-            Debug.Log("Estmoas na plataform", currentPlatform);
+            Debug.Log("Estamos na plataforma");
+            currentPlatform = other.gameObject.transform.GetComponent<PlatformBehaviour>();            
         }
     }
 

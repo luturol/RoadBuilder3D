@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 854075356515763836}
   - component: {fileID: 854075356515763837}
   - component: {fileID: 854075356515763838}
+  - component: {fileID: 1020862081197734405}
   m_Layer: 0
-  m_Name: Platform
+  m_Name: Platform Prefab
   m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -97,6 +98,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1020862081197734405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 854075356515763839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed28e49b58e0065409bbc3555e579f51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roadSpawn: {fileID: 6066758029501677768}
+  road: {fileID: 2680207240190324180, guid: 31fadb8c1765d614fb76a0528336d558, type: 3}
 --- !u!1 &2364054262536068312
 GameObject:
   m_ObjectHideFlags: 0
