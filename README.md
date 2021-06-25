@@ -13,7 +13,7 @@ In Road builder you will create roads to another field by pressing a button and 
 - [ ] Moving platform
 - [x] Player move toward platform
     - [x] if road does not reach the next platform player will fall and change the animation
-        - [ ] change animation
+        - [x] change animation
         - [x] fall
     - [x] if road does not reach the next platform player will fall and die (restart game)
 - [ ] Power up with measure tape
