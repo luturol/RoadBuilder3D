@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
 {
+    [SerializeField] private TextMeshProUGUI starCountText;
     [SerializeField] private int Stars = 0;
+
 
     [SerializeField] private RoadBehaviour roadPrefab;
     [SerializeField] private Transform rotateRoad;
@@ -16,13 +19,15 @@ public class PlayerBehaviour : MonoBehaviour
     private bool isSpacePressed = false;
     private bool hasReleasedSpacebar = false;
     private bool moveToEndOfRoad = false;
-    
+    private bool hasAddedTargetScore = false;
+
     private float time = 0f;
+
 
     // Start is called before the first frame update
     void Start()
     {
-
+        starCountText.text = "Stars: " + Stars.ToString();
     }
 
     // Update is called once per frame
@@ -44,24 +49,21 @@ public class PlayerBehaviour : MonoBehaviour
             }
         }
         else if (firstClickSpace == true)
-        {            
+        {
             hasReleasedSpacebar = true;
             time += Time.deltaTime;
             var rotationAngle = time * (90 / 10);
 
             bool canMove = true;
-            
+
             if (rotationAngle <= 90)
             {
-                Debug.Log("Rotacionando: " + rotationAngle + "graus");
                 rotateRoad.transform.rotation = Quaternion.Euler(rotationAngle, 0f, 0f);
                 canMove = false;
             }
-            
+
             if (canMove && moveToEndOfRoad == false)
             {
-                Debug.Log(rotationAngle);
-
                 //move to the end of the road
                 transform.position = Vector3.MoveTowards(transform.position, roadPrefab.GetEndOfRoad().transform.position, Time.deltaTime * 5);
                 if (transform.position.Equals(roadPrefab.GetEndOfRoad().transform.position))
@@ -86,14 +88,12 @@ public class PlayerBehaviour : MonoBehaviour
             if (currentPlatform != null && other.gameObject != currentPlatform)
             {
                 Stars += 2;
+                Debug.Log("(Platform) Somado +2 na stars. Total = " + Stars.ToString());
+                starCountText.text = "Stars: " + Stars.ToString();
             }
 
             currentPlatform = other.gameObject.transform.GetComponent<PlatformBehaviour>();
-
-
         }
-
-
     }
 
     private void OnTriggerEnter(Collider other)
@@ -101,11 +101,22 @@ public class PlayerBehaviour : MonoBehaviour
         if (other.gameObject.tag == "Target")
         {
             Stars += 2;
+            starCountText.text = "Stars: " + Stars.ToString();
+            Debug.Log("(Target) Somado +2 na stars. Total = " + Stars.ToString());
+            hasAddedTargetScore = true;
         }
 
         if (other.gameObject.tag == "Falling")
         {
             Debug.Log("Dead press F to pay respect");
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Target")
+        {
+           hasAddedTargetScore = false;
         }
     }
 

@@ -15,13 +15,13 @@ In Road builder you will create roads to another field by pressing a button and 
     - [ ] if road does not reach the next platform player will fall and change the animation
     - [ ] if road does not reach the next platform player will fall and die (restart game)
 - [ ] Power up with measure tape
-- [ ] Star counting
+- [x] Star counting
 - [ ] Power up that boost star reward
 - [ ] Present for winning the game
 - [ ] Finishing the map (diying or winning) player can restart the level
     - [ ] A success pop up should appear with the star count and a restart level button 
     - [ ] Star count is reseted if, but the reward does not it will still be available for the next run
-- [ ] Each platform has a tiny target. If the road hits that platform (end of the road hits the target), reward for that platform will doubled
+- [x] Each platform has a tiny target. If the road hits that platform (end of the road hits the target), reward for that platform will doubled
 
 
 ## Available platforms
