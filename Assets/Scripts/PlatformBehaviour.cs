@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlatformBehaviour : MonoBehaviour
 {
     [SerializeField] private Transform roadSpawn;
-    [SerializeField] private Transform road;
+    [SerializeField] private RoadBehaviour road;
 
     // Start is called before the first frame update
     void Start()
@@ -19,7 +19,7 @@ public class PlatformBehaviour : MonoBehaviour
 
     }
 
-    public Transform InstantiateRoad()
+    public RoadBehaviour InstantiateRoad()
     {
         return Instantiate(road, roadSpawn.transform.position, Quaternion.identity, roadSpawn);
     }

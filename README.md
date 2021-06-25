@@ -9,9 +9,9 @@ In Road builder you will create roads to another field by pressing a button and 
 ## Features
 
 - [ ] Start Game Scene
-- [ ] Road scale with keyboard key press
+- [x] Road scale with keyboard key press
 - [ ] Moving platform
-- [ ] Player move toward platform
+- [x] Player move toward platform
     - [ ] if road does not reach the next platform player will fall and change the animation
     - [ ] if road does not reach the next platform player will fall and die (restart game)
 - [ ] Power up with measure tape

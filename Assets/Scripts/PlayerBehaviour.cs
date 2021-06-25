@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
 {
-    private Transform roadPrefab;
+    private RoadBehaviour roadPrefab;
     private Transform rotateRoad;
+    
 
     private PlatformBehaviour currentPlatform;
+    
     private bool firstClickSpace = false;
     private bool isSpacePressed = false;
     private bool hasReleasedSpacebar = false;
+    private bool moveToEndOfRoad = false;
 
     // Start is called before the first frame update
     void Start()
@@ -33,7 +36,7 @@ public class PlayerBehaviour : MonoBehaviour
 
             if(roadPrefab != null)
             {
-                Resize(roadPrefab, 1, new Vector3(0f, 0.01f, 0f));
+                Resize(roadPrefab.transform, 1, new Vector3(0f, 0.01f, 0f));
             }
         }
         else if(firstClickSpace == true) {
@@ -46,8 +49,13 @@ public class PlayerBehaviour : MonoBehaviour
                 Debug.Log("Rotacionando: " + rotationAngle + "graus");
                 rotateRoad.transform.rotation = Quaternion.Euler(rotationAngle, 0f, 0f);
             }
-            else{
+            else if(moveToEndOfRoad == false){
                 //move to the end of the road
+                transform.position = Vector3.MoveTowards(transform.position, roadPrefab.GetEndOfRoad().transform.position, Time.deltaTime * 5);
+                if(transform.position.Equals(roadPrefab.GetEndOfRoad().transform.position))
+                {
+                    moveToEndOfRoad = true;
+                }
             }                
         }
     }
@@ -58,6 +66,11 @@ public class PlayerBehaviour : MonoBehaviour
         {
             Debug.Log("Estamos na plataforma");
             currentPlatform = other.gameObject.transform.GetComponent<PlatformBehaviour>();            
+        }
+
+        if(other.gameObject.tag == "target")
+        {
+            
         }
     }
 

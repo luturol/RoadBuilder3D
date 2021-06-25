@@ -181,7 +181,7 @@ PrefabInstance:
     - target: {fileID: 1020862081197734405, guid: cc4bf2c6de6191248b59dd382908419e, type: 3}
       propertyPath: road
       value: 
-      objectReference: {fileID: 2680207240190324180, guid: 31fadb8c1765d614fb76a0528336d558, type: 3}
+      objectReference: {fileID: 8421438007156195075, guid: 31fadb8c1765d614fb76a0528336d558, type: 3}
     - target: {fileID: 8090270407210699825, guid: cc4bf2c6de6191248b59dd382908419e, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -383,7 +383,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 16
   m_CollisionDetection: 0
 --- !u!136 &1330047394
 CapsuleCollider:
@@ -396,9 +396,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
-  m_Height: 1.496388
+  m_Height: 1.348022
   m_Direction: 1
-  m_Center: {x: 0, y: 0.694165, z: 0}
+  m_Center: {x: 0, y: 0.6926429, z: 0}
 --- !u!114 &1330047395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -526,7 +526,7 @@ PrefabInstance:
     - target: {fileID: 1020862081197734405, guid: cc4bf2c6de6191248b59dd382908419e, type: 3}
       propertyPath: road
       value: 
-      objectReference: {fileID: 2680207240190324180, guid: 31fadb8c1765d614fb76a0528336d558, type: 3}
+      objectReference: {fileID: 8421438007156195075, guid: 31fadb8c1765d614fb76a0528336d558, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc4bf2c6de6191248b59dd382908419e, type: 3}
 --- !u!1 &854075355266416528 stripped
