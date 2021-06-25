@@ -17,9 +17,9 @@ In Road builder you will create roads to another field by pressing a button and 
 - [ ] Power up with measure tape
 - [x] Star counting
 - [ ] Power up that boost star reward
-- [ ] Present for winning the game
-- [ ] Finishing the map (diying or winning) player can restart the level
-    - [ ] A success pop up should appear with the star count and a restart level button 
+- [x] Present for winning the game
+- [x] Finishing the map (diying or winning) player can restart the level
+    - [x] A success pop up should appear with the star count and a restart level button 
     - [ ] Star count is reseted if, but the reward does not it will still be available for the next run
 - [x] Each platform has a tiny target. If the road hits that platform (end of the road hits the target), reward for that platform will doubled
 

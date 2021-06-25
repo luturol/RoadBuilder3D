@@ -6,18 +6,8 @@ public class PlatformBehaviour : MonoBehaviour
 {
     [SerializeField] private Transform roadSpawn;
     [SerializeField] private RoadBehaviour road;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+    [SerializeField] private bool endGame = false;
+    
 
     public RoadBehaviour InstantiateRoad()
     {
@@ -25,5 +15,6 @@ public class PlatformBehaviour : MonoBehaviour
     }
 
     public Transform GetRoadPoint() => roadSpawn.transform;
-    
+
+    public bool IsEndGame => endGame;    
 }

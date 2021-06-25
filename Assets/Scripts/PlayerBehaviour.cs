@@ -5,14 +5,16 @@ using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
 {
+    [Header("Stars config")]
     [SerializeField] private TextMeshProUGUI starCountText;
     [SerializeField] private int Stars = 0;
 
+    [Header("End Game config")]
+    [SerializeField] private EndGameBehaviour endGamePanel;
 
-    [SerializeField] private RoadBehaviour roadPrefab;
-    [SerializeField] private Transform rotateRoad;
 
-
+    private RoadBehaviour roadPrefab;
+    private Transform rotateRoad;
     private PlatformBehaviour currentPlatform;
 
     private bool firstClickSpace = false;
@@ -20,8 +22,8 @@ public class PlayerBehaviour : MonoBehaviour
     private bool hasReleasedSpacebar = false;
     private bool moveToEndOfRoad = false;
     private bool hasAddedTargetScore = false;
-
     private float time = 0f;
+    private bool isDead = false;
 
 
     // Start is called before the first frame update
@@ -33,6 +35,12 @@ public class PlayerBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isDead) return;
+
+        //has finished the game
+        if (currentPlatform != null && currentPlatform.IsEndGame)
+            return;
+
         isSpacePressed = Input.GetKey(KeyCode.Space);
         if (isSpacePressed && (firstClickSpace == false || hasReleasedSpacebar == false))
         {
@@ -89,10 +97,22 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 Stars += 2;
                 Debug.Log("(Platform) Somado +2 na stars. Total = " + Stars.ToString());
-                starCountText.text = "Stars: " + Stars.ToString();
             }
 
             currentPlatform = other.gameObject.transform.GetComponent<PlatformBehaviour>();
+            if (currentPlatform.IsEndGame)
+            {
+                bool win = true;
+
+                Stars *= 2;
+                Debug.Log("(Platform Final) duplicado stars. Total = " + Stars.ToString());
+
+                endGamePanel.gameObject.SetActive(true);
+                endGamePanel.SetWinOrLose(win);
+                endGamePanel.SetStarsCount(Stars);
+            }
+
+            starCountText.text = "Stars: " + Stars.ToString();
         }
     }
 
@@ -108,7 +128,12 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (other.gameObject.tag == "Falling")
         {
+            bool win = false;
+            isDead = true;
             Debug.Log("Dead press F to pay respect");
+            endGamePanel.gameObject.SetActive(true);
+            endGamePanel.SetWinOrLose(win);
+            endGamePanel.SetStarsCount(Stars);
         }
     }
 
@@ -116,7 +141,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (other.gameObject.tag == "Target")
         {
-           hasAddedTargetScore = false;
+            hasAddedTargetScore = false;
         }
     }
 
