@@ -8,7 +8,7 @@ In Road builder you will create roads to another field by pressing a button and 
 
 ## Features
 
-- [ ] Start Game Scene
+- [x] Start Game Scene
 - [x] Road scale with keyboard key press
 - [ ] Moving platform
 - [x] Player move toward platform
@@ -30,5 +30,5 @@ In Road builder you will create roads to another field by pressing a button and 
 
 ## Available platforms
 
-- [ ] https://luturol.itch.io/
-- [ ] released build on github tag
+- [x] [itch.io](https://luturol.itch.io/road-builder-3d)
+- [x] [released build on github](https://github.com/luturol/RoadBuilder3D/releases/tag/v1.0)
