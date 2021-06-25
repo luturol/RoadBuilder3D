@@ -1360,6 +1360,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2066896392038628118, guid: 45288819fde2143449a96207b14db0bb, type: 3}
   m_PrefabInstance: {fileID: 1499695278}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &1330047391 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 2066896392029128874, guid: 45288819fde2143449a96207b14db0bb, type: 3}
+  m_PrefabInstance: {fileID: 1499695278}
+  m_PrefabAsset: {fileID: 0}
 --- !u!54 &1330047393
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1405,6 +1410,7 @@ MonoBehaviour:
   starCountText: {fileID: 1611709574}
   Stars: 0
   endGamePanel: {fileID: 709034857}
+  animator: {fileID: 1330047391}
 --- !u!1 &1482154842
 GameObject:
   m_ObjectHideFlags: 0

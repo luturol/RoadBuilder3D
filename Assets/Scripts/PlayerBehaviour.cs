@@ -12,6 +12,8 @@ public class PlayerBehaviour : MonoBehaviour
     [Header("End Game config")]
     [SerializeField] private EndGameBehaviour endGamePanel;
 
+    [Header("Animations")]
+    [SerializeField] private Animator animator;
 
     private RoadBehaviour roadPrefab;
     private Transform rotateRoad;
@@ -62,17 +64,18 @@ public class PlayerBehaviour : MonoBehaviour
             time += Time.deltaTime;
             var rotationAngle = time * (90 / 10);
 
-            bool canMove = true;
-
+            bool canMove = true;            
             if (rotationAngle <= 90)
             {
                 rotateRoad.transform.rotation = Quaternion.Euler(rotationAngle, 0f, 0f);
                 canMove = false;
+                animator.SetBool("Walk", canMove);
             }
 
             if (canMove && moveToEndOfRoad == false)
             {
                 //move to the end of the road
+                animator.SetBool("Walk", canMove);
                 transform.position = Vector3.MoveTowards(transform.position, roadPrefab.GetEndOfRoad().transform.position, Time.deltaTime * 5);
                 if (transform.position.Equals(roadPrefab.GetEndOfRoad().transform.position))
                 {
@@ -83,6 +86,9 @@ public class PlayerBehaviour : MonoBehaviour
                     isSpacePressed = false;
                     hasReleasedSpacebar = false;
                     moveToEndOfRoad = false;
+                    
+                    canMove = false;
+                    animator.SetBool("Walk", canMove);
                 }
             }
         }
@@ -130,6 +136,8 @@ public class PlayerBehaviour : MonoBehaviour
         {
             bool win = false;
             isDead = true;
+            animator.SetBool("Dead", isDead);
+
             Debug.Log("Dead press F to pay respect");
             endGamePanel.gameObject.SetActive(true);
             endGamePanel.SetWinOrLose(win);
