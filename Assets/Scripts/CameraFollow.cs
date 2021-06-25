@@ -15,8 +15,6 @@ public class CameraFollow : MonoBehaviour
 
     void LateUpdate()
     {
-
-        transform.position = player.transform.position + distance;
-        //transform.rotation = Quaternion.Euler(30, 0, 0);
+        transform.position = player.transform.position + distance;       
     }
 }
