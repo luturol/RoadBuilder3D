@@ -12,12 +12,17 @@ public class PlayerBehaviour : MonoBehaviour
     [Header("End Game config")]
     [SerializeField] private EndGameBehaviour endGamePanel;
 
-    [Header("Animations")]
+    [Header("Player Configs")]
     [SerializeField] private Animator animator;
+    [SerializeField] private float movementSpeed = 10f;
+
+    [Header("Platform Rotation")]
+    [SerializeField] private float velocityPlatformDown = 5f;
 
     private RoadBehaviour roadPrefab;
     private Transform rotateRoad;
     private PlatformBehaviour currentPlatform;
+    private Rigidbody playerRigidBody;
 
     private bool firstClickSpace = false;
     private bool isSpacePressed = false;
@@ -31,6 +36,7 @@ public class PlayerBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerRigidBody = GetComponent<Rigidbody>();
         starCountText.text = "Stars: " + Stars.ToString();
     }
 
@@ -62,7 +68,7 @@ public class PlayerBehaviour : MonoBehaviour
         {
             hasReleasedSpacebar = true;
             time += Time.deltaTime;
-            var rotationAngle = time * (90 / 10);
+            var rotationAngle = time * (90 / velocityPlatformDown);
 
             bool canMove = true;            
             if (rotationAngle <= 90)
@@ -76,8 +82,10 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 //move to the end of the road
                 animator.SetBool("Walk", canMove);
-                transform.position = Vector3.MoveTowards(transform.position, roadPrefab.GetEndOfRoad().transform.position, Time.deltaTime * 5);
-                if (transform.position.Equals(roadPrefab.GetEndOfRoad().transform.position))
+                //transform.position = Vector3.MoveTowards(transform.position, roadPrefab.GetEndOfRoad().transform.position, Time.deltaTime * 5);
+                var moveTo = Vector3.MoveTowards(transform.position, roadPrefab.GetEndOfRoad().transform.position, Time.deltaTime * movementSpeed);
+                playerRigidBody.MovePosition(moveTo);
+                if (playerRigidBody.position.Equals(roadPrefab.GetEndOfRoad().transform.position))
                 {
                     moveToEndOfRoad = true;
 
@@ -124,7 +132,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Target")
+        if (other.gameObject.tag == "Target" && hasAddedTargetScore == false)
         {
             Stars += 2;
             starCountText.text = "Stars: " + Stars.ToString();
@@ -149,6 +157,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (other.gameObject.tag == "Target")
         {
+            Debug.Log("Não estamos mais tocando na plataforma");
             hasAddedTargetScore = false;
         }
     }
