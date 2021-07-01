@@ -23,6 +23,7 @@ public class PlayerBehaviour : MonoBehaviour
     private Transform rotateRoad;
     private PlatformBehaviour currentPlatform;
     private Rigidbody playerRigidBody;
+    private BoxCollider collider;
 
     private bool firstClickSpace = false;
     private bool isSpacePressed = false;
@@ -55,6 +56,7 @@ public class PlayerBehaviour : MonoBehaviour
             if (firstClickSpace == false)
             {
                 roadPrefab = currentPlatform.InstantiateRoad();
+                collider = roadPrefab.GetComponent<BoxCollider>();
                 rotateRoad = currentPlatform.GetRoadPoint();
                 firstClickSpace = true;
             }
@@ -65,12 +67,14 @@ public class PlayerBehaviour : MonoBehaviour
             }
         }
         else if (firstClickSpace == true)
-        {
+        {            
+            collider.size = new Vector3(1f, 1f, 1f);
+
             hasReleasedSpacebar = true;
             time += Time.deltaTime;
             var rotationAngle = time * (90 / velocityPlatformDown);
 
-            bool canMove = true;            
+            bool canMove = true;
             if (rotationAngle <= 90)
             {
                 rotateRoad.transform.rotation = Quaternion.Euler(rotationAngle, 0f, 0f);
@@ -94,7 +98,7 @@ public class PlayerBehaviour : MonoBehaviour
                     isSpacePressed = false;
                     hasReleasedSpacebar = false;
                     moveToEndOfRoad = false;
-                    
+
                     canMove = false;
                     animator.SetBool("Walk", canMove);
                 }
@@ -166,6 +170,6 @@ public class PlayerBehaviour : MonoBehaviour
     {
         currentPlatform.position += direction * amount / 2;
 
-        currentPlatform.localScale += direction * amount;
+        currentPlatform.localScale += direction * amount;        
     }
 }

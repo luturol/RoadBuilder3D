@@ -113,6 +113,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roadSpawn: {fileID: 6066758029501677768}
   road: {fileID: 8421438007156195075, guid: 31fadb8c1765d614fb76a0528336d558, type: 3}
+  endGame: 0
 --- !u!1 &2364054262536068312
 GameObject:
   m_ObjectHideFlags: 0
@@ -137,7 +138,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2364054262536068312}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.504, z: 0.469}
+  m_LocalPosition: {x: 0, y: 0.509, z: 0.469}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 854075356515763835}
@@ -215,7 +216,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8090270407210699825}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.044, y: 0.51, z: 0.037}
+  m_LocalPosition: {x: 0.044, y: 0.505, z: 0.037}
   m_LocalScale: {x: 0.056465246, y: 0.0953, z: 0.02090882}
   m_Children: []
   m_Father: {fileID: 854075356515763835}
