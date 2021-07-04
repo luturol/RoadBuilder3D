@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
 {
+    public int Stars { get; set; } = 0;
+
     [Header("Stars config")]
     [SerializeField] private TextMeshProUGUI starCountText;
-    [SerializeField] private int Stars = 0;
 
     [Header("End Game config")]
     [SerializeField] private EndGameBehaviour endGamePanel;
@@ -23,7 +24,7 @@ public class PlayerBehaviour : MonoBehaviour
     private Transform rotateRoad;
     private PlatformBehaviour currentPlatform;
     private Rigidbody playerRigidBody;
-    private BoxCollider collider;
+    private BoxCollider boxCollider;
 
     private bool firstClickSpace = false;
     private bool isSpacePressed = false;
@@ -33,6 +34,7 @@ public class PlayerBehaviour : MonoBehaviour
     private float time = 0f;
     private bool isDead = false;
 
+    private State currentState;
 
     // Start is called before the first frame update
     void Start()
@@ -44,68 +46,22 @@ public class PlayerBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isDead) return;
-
-        //has finished the game
-        if (currentPlatform != null && currentPlatform.IsEndGame)
-            return;
-
-        isSpacePressed = Input.GetKey(KeyCode.Space);
-        if (isSpacePressed && (firstClickSpace == false || hasReleasedSpacebar == false))
-        {
-            if (firstClickSpace == false)
-            {
-                roadPrefab = currentPlatform.InstantiateRoad();
-                collider = roadPrefab.GetComponent<BoxCollider>();
-                rotateRoad = currentPlatform.GetRoadPoint();
-                firstClickSpace = true;
-            }
-
-            if (roadPrefab != null)
-            {
-                Resize(roadPrefab.transform, 1, new Vector3(0f, 0.01f, 0f));
-            }
-        }
-        else if (firstClickSpace == true)
-        {            
-            collider.size = new Vector3(1f, 1f, 1f);
-
-            hasReleasedSpacebar = true;
-            time += Time.deltaTime;
-            var rotationAngle = time * (90 / velocityPlatformDown);
-
-            bool canMove = true;
-            if (rotationAngle <= 90)
-            {
-                rotateRoad.transform.rotation = Quaternion.Euler(rotationAngle, 0f, 0f);
-                canMove = false;
-                animator.SetBool("Walk", canMove);
-            }
-
-            if (canMove && moveToEndOfRoad == false)
-            {
-                //move to the end of the road
-                animator.SetBool("Walk", canMove);
-                //transform.position = Vector3.MoveTowards(transform.position, roadPrefab.GetEndOfRoad().transform.position, Time.deltaTime * 5);
-                var moveTo = Vector3.MoveTowards(transform.position, roadPrefab.GetEndOfRoad().transform.position, Time.deltaTime * movementSpeed);
-                playerRigidBody.MovePosition(moveTo);
-                if (playerRigidBody.position.Equals(roadPrefab.GetEndOfRoad().transform.position))
-                {
-                    moveToEndOfRoad = true;
-
-                    time = 0f;
-                    firstClickSpace = false;
-                    isSpacePressed = false;
-                    hasReleasedSpacebar = false;
-                    moveToEndOfRoad = false;
-
-                    canMove = false;
-                    animator.SetBool("Walk", canMove);
-                }
-            }
-        }
+        if(currentState != null)
+            currentState.Tick();        
     }
 
+    public void SetState(State state)
+    {
+        if (currentState != null)
+            currentState.OnStateExist();
+
+        currentState = state;
+
+        if (currentState != null)
+            currentState.OnStateEnter();
+    }
+
+    //Need to refactor giving star points
     private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.tag == "Platform")
@@ -113,27 +69,31 @@ public class PlayerBehaviour : MonoBehaviour
             Debug.Log("Estamos na plataforma");
             if (currentPlatform != null && other.gameObject != currentPlatform)
             {
+                var actual = Stars;
                 Stars += 2;
-                Debug.Log("(Platform) Somado +2 na stars. Total = " + Stars.ToString());
+                Debug.Log("(Platform) Somado +2 na stars. Atual = " + actual +" Total = " + Stars.ToString());
             }
 
             currentPlatform = other.gameObject.transform.GetComponent<PlatformBehaviour>();
+
+            if(currentState == null && currentPlatform != null)
+            {
+                Debug.Log("criado InstantiatePlatformState");
+                SetState(new InstantiatePlatformState(this, currentPlatform));
+            }            
+
             if (currentPlatform.IsEndGame)
             {
-                bool win = true;
-
-                Stars *= 2;
-                Debug.Log("(Platform Final) duplicado stars. Total = " + Stars.ToString());
-
-                endGamePanel.gameObject.SetActive(true);
-                endGamePanel.SetWinOrLose(win);
-                endGamePanel.SetStarsCount(Stars);
+                SetState(new EndGameState(this, endGamePanel, win: true));
             }
+            
+            
 
             starCountText.text = "Stars: " + Stars.ToString();
         }
     }
 
+    //Need to refactor giving star points
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Target" && hasAddedTargetScore == false)
@@ -170,6 +130,12 @@ public class PlayerBehaviour : MonoBehaviour
     {
         currentPlatform.position += direction * amount / 2;
 
-        currentPlatform.localScale += direction * amount;        
+        currentPlatform.localScale += direction * amount;
     }
+
+    public float GetMovementSpeed() => movementSpeed;
+    public float GetVelocityPlatformDown() => velocityPlatformDown;
+    public Animator GetAnimator() => animator;
+    public Rigidbody GetRigidBody() => playerRigidBody;
+    public PlatformBehaviour GetCurrentPlatform() => currentPlatform;
 }
