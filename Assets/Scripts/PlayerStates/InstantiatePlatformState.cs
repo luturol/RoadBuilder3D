@@ -18,9 +18,10 @@ public class InstantiatePlatformState : State
     public override void Tick()
     {
         bool isSpacePressed = Input.GetKey(KeyCode.Space);
-        bool firstClickAndStillPressing = (firstClickSpace == false || hasReleasedSpacebar == false);
+        bool firstClickAndStillPressing = firstClickSpace == false;
+        Debug.Log("is first click and still pressing: " + firstClickAndStillPressing);
 
-        if (isSpacePressed && firstClickAndStillPressing)
+        if (isSpacePressed)
         {
             if (firstClickSpace == false)
             {
@@ -33,8 +34,7 @@ public class InstantiatePlatformState : State
                 Resize(roadPrefab.transform, 1, new Vector3(0f, 0.01f, 0f));
             }
         }
-        
-        if(firstClickSpace)
+        else if(firstClickSpace)
         {
             Debug.Log("Rotacionando a rua. Rua: " + platformBehaviour.GetRoadPoint().position.ToString());
             player.SetState(new RotateRoadState(player, roadPrefab, platformBehaviour.GetRoadPoint()));

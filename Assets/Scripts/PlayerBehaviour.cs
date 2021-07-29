@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -20,20 +18,11 @@ public class PlayerBehaviour : MonoBehaviour
     [Header("Platform Rotation")]
     [SerializeField] private float velocityPlatformDown = 5f;
 
-    private RoadBehaviour roadPrefab;
-    private Transform rotateRoad;
     private PlatformBehaviour currentPlatform;
     private Rigidbody playerRigidBody;
-    private BoxCollider boxCollider;
-
-    private bool firstClickSpace = false;
-    private bool isSpacePressed = false;
-    private bool hasReleasedSpacebar = false;
-    private bool moveToEndOfRoad = false;
-    private bool hasAddedTargetScore = false;
-    private float time = 0f;
+        
+    private bool hasAddedTargetScore = false;    
     private bool isDead = false;
-
     private State currentState;
 
     // Start is called before the first frame update
@@ -87,8 +76,6 @@ public class PlayerBehaviour : MonoBehaviour
                 SetState(new EndGameState(this, endGamePanel, win: true));
             }
             
-            
-
             starCountText.text = "Stars: " + Stars.ToString();
         }
     }
