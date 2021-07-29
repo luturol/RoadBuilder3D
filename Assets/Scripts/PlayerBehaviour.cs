@@ -20,8 +20,9 @@ public class PlayerBehaviour : MonoBehaviour
 
     private PlatformBehaviour currentPlatform;
     private Rigidbody playerRigidBody;
-        
-    private bool hasAddedTargetScore = false;    
+
+    private bool hasAddedTargetScore = false;
+    private bool hasAddedPlatformScore = false;
     private bool isDead = false;
     private State currentState;
 
@@ -35,8 +36,8 @@ public class PlayerBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(currentState != null)
-            currentState.Tick();        
+        if (currentState != null)
+            currentState.Tick();
     }
 
     public void SetState(State state)
@@ -56,39 +57,49 @@ public class PlayerBehaviour : MonoBehaviour
         if (other.gameObject.tag == "Platform")
         {
             Debug.Log("Estamos na plataforma");
-            if (currentPlatform != null && other.gameObject != currentPlatform)
+
+            bool differentPlatform = currentPlatform != null && other.gameObject != currentPlatform;
+            bool hasNotAddedScore = hasAddedPlatformScore == false;
+            bool isStateInstatiatePlatform = currentState is InstantiatePlatformState;
+            if (differentPlatform && hasNotAddedScore && isStateInstatiatePlatform)
             {
                 var actual = Stars;
                 Stars += 2;
-                Debug.Log("(Platform) Somado +2 na stars. Atual = " + actual +" Total = " + Stars.ToString());
+                Debug.Log("(Platform) Somado +2 na stars. Atual = " + actual + " Total = " + Stars.ToString());
+                hasAddedPlatformScore = true;
             }
 
             currentPlatform = other.gameObject.transform.GetComponent<PlatformBehaviour>();
 
-            if(currentState == null && currentPlatform != null)
+            if (currentState == null && currentPlatform != null)
             {
+                hasAddedPlatformScore = false;
                 Debug.Log("criado InstantiatePlatformState");
                 SetState(new InstantiatePlatformState(this, currentPlatform));
-            }            
+            }
 
             if (currentPlatform.IsEndGame)
             {
                 SetState(new EndGameState(this, endGamePanel, win: true));
             }
-            
+
             starCountText.text = "Stars: " + Stars.ToString();
         }
+
     }
 
     //Need to refactor giving star points
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Target" && hasAddedTargetScore == false)
+        if (currentState is InstantiatePlatformState)
         {
-            Stars += 2;
-            starCountText.text = "Stars: " + Stars.ToString();
-            Debug.Log("(Target) Somado +2 na stars. Total = " + Stars.ToString());
-            hasAddedTargetScore = true;
+            if (other.gameObject.tag == "Target" && hasAddedTargetScore == false)
+            {
+                Stars += 2;
+                starCountText.text = "Stars: " + Stars.ToString();
+                Debug.Log("(Target) Somado +2 na stars. Total = " + Stars.ToString());
+                hasAddedTargetScore = true;
+            }
         }
 
         if (other.gameObject.tag == "Falling")

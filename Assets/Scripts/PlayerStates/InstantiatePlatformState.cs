@@ -17,10 +17,7 @@ public class InstantiatePlatformState : State
 
     public override void Tick()
     {
-        bool isSpacePressed = Input.GetKey(KeyCode.Space);
-        bool firstClickAndStillPressing = firstClickSpace == false;
-        Debug.Log("is first click and still pressing: " + firstClickAndStillPressing);
-
+        bool isSpacePressed = Input.GetKey(KeyCode.Space);        
         if (isSpacePressed)
         {
             if (firstClickSpace == false)
