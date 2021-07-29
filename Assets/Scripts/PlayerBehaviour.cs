@@ -65,21 +65,19 @@ public class PlayerBehaviour : MonoBehaviour
         {
             Debug.Log("Estamos na plataforma");
 
-            bool differentPlatform = currentPlatform != null && other.gameObject != currentPlatform;
             bool hasNotAddedScore = hasAddedPlatformScore == false;
             bool isStateInstatiatePlatform = currentState is InstantiatePlatformState;
-            if (differentPlatform && hasNotAddedScore && isStateInstatiatePlatform)
+
+            Debug.Log("Já adicionar o score " + hasNotAddedScore + " e state é instantiate " + isStateInstatiatePlatform);
+            if (hasNotAddedScore && isStateInstatiatePlatform)
             {
-                audioSource.PlayOneShot(starsPlatformSound);
-                var actual = Stars;
-                Stars += 2;
-                Debug.Log("(Platform) Somado +2 na stars. Atual = " + actual + " Total = " + Stars.ToString());
+                AddScore(starsPlatformSound);
+                Debug.Log("(Platform) Somado +2 na stars. Total = " + Stars.ToString());
                 hasAddedPlatformScore = true;
-                currentPlatform = other.gameObject.transform.GetComponent<PlatformBehaviour>();
             }
 
-            if(currentPlatform == null)
-                currentPlatform = other.gameObject.transform.GetComponent<PlatformBehaviour>();
+            SetCurrentPlatform(other.gameObject);
+
 
             if (currentState == null && currentPlatform != null)
             {
@@ -98,32 +96,38 @@ public class PlayerBehaviour : MonoBehaviour
 
     }
 
+    private void AddScore(AudioClip clip)
+    {
+        audioSource.PlayOneShot(clip);
+        var actual = Stars;
+        Stars += 2;        
+    }
+
+    private void SetCurrentPlatform(GameObject platform)
+    {
+        currentPlatform = platform.GetComponent<PlatformBehaviour>();
+    }
+
     //Need to refactor giving star points
     private void OnTriggerEnter(Collider other)
     {
         if (currentState is InstantiatePlatformState)
         {
             if (other.gameObject.tag == "Target" && hasAddedTargetScore == false)
-            {                
-                audioSource.PlayOneShot(targetPlatformSound);
-
-                Stars += 2;
-                starCountText.text = "Stars: " + Stars.ToString();
-                Debug.Log("(Target) Somado +2 na stars. Total = " + Stars.ToString());
+            {
+                AddScore(targetPlatformSound);                
                 hasAddedTargetScore = true;
             }
         }
 
         if (other.gameObject.tag == "Falling")
         {
+            Debug.Log("Dead press F to pay respect");   
             bool win = false;
             isDead = true;
             animator.SetBool("Dead", isDead);
-
-            Debug.Log("Dead press F to pay respect");
-            endGamePanel.gameObject.SetActive(true);
-            endGamePanel.SetWinOrLose(win);
-            endGamePanel.SetStarsCount(Stars);
+            
+            SetState(new EndGameState(this, endGamePanel, win));                     
         }
     }
 
@@ -133,6 +137,13 @@ public class PlayerBehaviour : MonoBehaviour
         {
             Debug.Log("Não estamos mais tocando na plataforma");
             hasAddedTargetScore = false;
+        }
+    }
+
+    private void OnCollisionExit(Collision other) {
+        if(other.gameObject.tag == "Platform")
+        {
+            hasAddedPlatformScore = false;
         }
     }
 
