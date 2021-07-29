@@ -18,8 +18,14 @@ public class PlayerBehaviour : MonoBehaviour
     [Header("Platform Rotation")]
     [SerializeField] private float velocityPlatformDown = 5f;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip starsPlatformSound;
+    [SerializeField] private AudioClip targetPlatformSound;
+
+    //Cached
     private PlatformBehaviour currentPlatform;
     private Rigidbody playerRigidBody;
+    private AudioSource audioSource;
 
     private bool hasAddedTargetScore = false;
     private bool hasAddedPlatformScore = false;
@@ -29,6 +35,7 @@ public class PlayerBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         playerRigidBody = GetComponent<Rigidbody>();
         starCountText.text = "Stars: " + Stars.ToString();
     }
@@ -63,19 +70,22 @@ public class PlayerBehaviour : MonoBehaviour
             bool isStateInstatiatePlatform = currentState is InstantiatePlatformState;
             if (differentPlatform && hasNotAddedScore && isStateInstatiatePlatform)
             {
+                audioSource.PlayOneShot(starsPlatformSound);
                 var actual = Stars;
                 Stars += 2;
                 Debug.Log("(Platform) Somado +2 na stars. Atual = " + actual + " Total = " + Stars.ToString());
                 hasAddedPlatformScore = true;
+                currentPlatform = other.gameObject.transform.GetComponent<PlatformBehaviour>();
             }
 
-            currentPlatform = other.gameObject.transform.GetComponent<PlatformBehaviour>();
+            if(currentPlatform == null)
+                currentPlatform = other.gameObject.transform.GetComponent<PlatformBehaviour>();
 
             if (currentState == null && currentPlatform != null)
             {
                 hasAddedPlatformScore = false;
                 Debug.Log("criado InstantiatePlatformState");
-                SetState(new InstantiatePlatformState(this, currentPlatform));
+                SetState(new InstantiatePlatformState(this));
             }
 
             if (currentPlatform.IsEndGame)
@@ -94,7 +104,9 @@ public class PlayerBehaviour : MonoBehaviour
         if (currentState is InstantiatePlatformState)
         {
             if (other.gameObject.tag == "Target" && hasAddedTargetScore == false)
-            {
+            {                
+                audioSource.PlayOneShot(targetPlatformSound);
+
                 Stars += 2;
                 starCountText.text = "Stars: " + Stars.ToString();
                 Debug.Log("(Target) Somado +2 na stars. Total = " + Stars.ToString());

@@ -7,12 +7,10 @@ public class InstantiatePlatformState : State
     private PlatformBehaviour platformBehaviour;
 
     private bool firstClickSpace = false;
-    private bool hasReleasedSpacebar = false;
     private RoadBehaviour roadPrefab;
 
-    public InstantiatePlatformState(PlayerBehaviour player, PlatformBehaviour platformBehaviour) : base(player)
-    {
-        this.platformBehaviour = platformBehaviour;
+    public InstantiatePlatformState(PlayerBehaviour player) : base(player)
+    {        
     }
 
     public override void Tick()
@@ -20,6 +18,9 @@ public class InstantiatePlatformState : State
         bool isSpacePressed = Input.GetKey(KeyCode.Space);        
         if (isSpacePressed)
         {
+            if(platformBehaviour == null)
+                platformBehaviour = player.GetCurrentPlatform();
+
             if (firstClickSpace == false)
             {
                 roadPrefab = platformBehaviour.InstantiateRoad();

@@ -24,7 +24,7 @@ public class MoveToEndOfRoadState : State
         if (playerRigidBody.position.Equals(endRoad.position))
         {           
             animator.SetBool("Walk", false);
-            player.SetState(new InstantiatePlatformState(player, player.GetCurrentPlatform()));
+            player.SetState(new InstantiatePlatformState(player));
         }
 
     }

@@ -157,7 +157,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.4, y: -81.8}
+  m_AnchoredPosition: {x: -2.4, y: -112.600006}
   m_SizeDelta: {x: 584.8276, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &102429097
@@ -180,7 +180,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: If you fall, then you lose =/ w
+  m_text: If you fall, then you lose =/
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -775,7 +775,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2, y: 23}
+  m_AnchoredPosition: {x: -2, y: 62}
   m_SizeDelta: {x: 584.8276, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &984310876
@@ -1099,7 +1099,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1, y: -181.2}
+  m_AnchoredPosition: {x: -1, y: -212}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1661090698
@@ -1230,7 +1230,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.6, y: -14.3}
+  m_AnchoredPosition: {x: -2.6, y: 24.7}
   m_SizeDelta: {x: 584.8276, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1821271571
@@ -1256,7 +1256,8 @@ MonoBehaviour:
   m_text: 'press space bar to create a road to the next platform and to acumulate
     stars points.
 
-'
+    If the player stop above the green target in the platform,
+    then start points from that platform will double.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1367,7 +1368,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2, y: -140}
+  m_AnchoredPosition: {x: -2, y: -170.8}
   m_SizeDelta: {x: 584.8276, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1954861258
